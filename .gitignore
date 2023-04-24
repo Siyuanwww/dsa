@@ -1,0 +1,8 @@
+*.exe
+*.o
+*.7z
+*.rar
+*.tar
+*.zip
+.vscode/
+DSA-2023Spring-08up.H.pdf
