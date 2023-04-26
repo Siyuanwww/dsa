@@ -1,7 +1,4 @@
 #include <cstdlib>
-#include <algorithm>
-
-#define SIZE(p) ((p) == nullptr ? 0 : (p)->siz)
 
 template <typename T>
 inline void swap(T &x, T &y) {
@@ -9,13 +6,14 @@ inline void swap(T &x, T &y) {
     x = static_cast<T&&>(y);
     y = static_cast<T&&>(t);
 }
+struct Node *null;
 struct Node {
-    int data;
+    int val;
     int siz, key;
     bool rev;
     Node *ch[2];
-    Node(const int &data) : data(data), siz(1), key(rand()), rev(false) {
-        ch[0] = ch[1] = nullptr;
+    Node(const int &val = 0) : val(val), siz(1), key(rand()), rev(false) {
+        ch[0] = ch[1] = null;
     }
     void Reverse() {
         rev ^= 1;
@@ -23,28 +21,25 @@ struct Node {
     }
     void PushDown() {
         if (rev) {
-            if (ch[0] != nullptr) {
+            if (ch[0] != null) {
                 ch[0]->Reverse();
             }
-            if (ch[1] != nullptr) {
+            if (ch[1] != null) {
                 ch[1]->Reverse();
             }
             rev = false;
         }
     }
     void PushUp() {
-        siz = SIZE(ch[0]) + SIZE(ch[1]) + 1;
+        siz = ch[0]->siz + ch[1]->siz + 1;
     }
 };
 
-class FHQTreap {
+class Treap {
+protected:
     Node *rt;
-    FHQTreap() : rt(nullptr) {}
-    ~FHQTreap() {
-        Deconstruct(rt);
-    }
     void Deconstruct(Node *p) {
-        if (p == nullptr) {
+        if (p == null) {
             return;
         }
         Deconstruct(p->ch[0]);
@@ -52,12 +47,12 @@ class FHQTreap {
         delete p;
     }
     void Split(Node *p, int k, Node *&x, Node *&y) {
-        if (p == nullptr) {
-            x = y = nullptr;
+        if (p == null) {
+            x = y = null;
             return;
         }
         p->PushDown();
-        int siz = SIZE(p->ch[0]);
+        int siz = p->ch[0]->siz;
         if (k > siz) {
             x = p;
             Split(p->ch[1], k - siz, p->ch[1], y);
@@ -68,10 +63,10 @@ class FHQTreap {
         p->PushUp();
     }
     Node *Merge(Node *x, Node *y) {
-        if (x == nullptr) {
+        if (x == null) {
             return y;
         }
-        if (y == nullptr) {
+        if (y == null) {
             return x;
         }
         x->PushDown();
@@ -87,6 +82,39 @@ class FHQTreap {
         }
     }
 public:
+    Treap() {
+        null = new Node();
+        null->ch[0] = null->ch[1] = null;
+        null->siz = 0;
+        rt = null;
+    }
+    ~Treap() {
+        Deconstruct(rt);
+    }
+    void Insert(int k, int val) {
+        Node *x, *y;
+        Split(rt, k, x, y);
+        rt = Merge(Merge(x, new Node(val)), y);
+    }
+    void Erase(int k) {
+        Node *x, *y, *z;
+        Split(rt, k, x, y);
+        Split(y, 1, y, z);
+        rt = Merge(x, z);
+    }
+    int operator[](int k) {
+        Node *x, *y, *z;
+        Split(rt, k, x, y);
+        Split(y, 1, y, z);
+        int val = y->val;
+        rt = Merge(Merge(x, y), z);
+        return val;
+    }
+    void Reverse(int l, int r) {
+        Node *x, *y, *z;
+        Split(rt, r, y, z);
+        Split(y, l - 1, x, y);
+        y->Reverse();
+        rt = Merge(Merge(x, y), z);
+    }
 };
-
-#undef SIZE

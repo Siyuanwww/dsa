@@ -1,6 +1,5 @@
 template <typename T>
-class Node {
-public:
+struct Node {
     T data;
     Node<T> *pred, *succ;
     Node(T data = T(), Node<T> *pred = nullptr, Node<T> *succ = nullptr) : data(data), pred(pred), succ(succ) {}
