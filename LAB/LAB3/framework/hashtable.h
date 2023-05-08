@@ -26,6 +26,18 @@ struct linear_probe: public collision_strategy{
     void init();
     int operator()(hash_entry* Table, int table_size, int last_choice) override;
 };
+
+
+struct UnevenHashing : public hashing_strategy {
+    int operator()(char *str, int N) override;
+};
+struct EvenHashing : public hashing_strategy {
+    int operator()(char *str, int N) override;
+};
+
+
+
+
 struct hashtable{
     hash_entry* Table;
     int table_size;
