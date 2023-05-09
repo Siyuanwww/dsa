@@ -17,16 +17,32 @@ void linear_probe::init(){
 
 int UnevenHashing::operator()(char *str, int N) {
     int h = 0;
-    for (int i = 0; i < N; i++) {
-        h ^= str[i];
+    for (char *p = str; *p != '\0'; p++) {
+        h ^= *p;
     }
-    return h;
+    return h % N;
 }
 int EvenHashing::operator()(char *str, int N) {
     const int kBase = 10007;
     int h = 0;
-    for (int i = 0; i < N; i++) {
-        h = ((int64)h * kBase + str[i]) % N;
+    for (char *p = str; *p != '\0'; p++) {
+        h = ((int64)h * kBase + *p) % N;
     }
     return h;
+}
+
+
+void QuadraticProbing::init() {
+    offset = 1;
+    step = 1;
+}
+int QuadraticProbing::operator()(hash_entry* Table, int table_size, int last_choice) {
+    int nextChoise = (last_choice + offset) % table_size;
+    if (offset > 0) {
+        offset = -offset;
+        step++;
+    } else {
+        offset = step * step % table_size;
+    }
+    return nextChoise;
 }
