@@ -26,27 +26,21 @@ struct linear_probe: public collision_strategy{
     void init();
     int operator()(hash_entry* Table, int table_size, int last_choice) override;
 };
-
-
 struct UnevenHashing : public hashing_strategy {
-    virtual int operator()(char *str, int N) override;
+    int operator()(char *str, int N) override;
 };
 struct EvenHashing : public hashing_strategy {
-    virtual int operator()(char *str, int N) override;
+    int operator()(char *str, int N) override;
 };
 struct QuadraticProbing : public collision_strategy {
-    int step, offset;
-    virtual void init();
-    virtual int operator()(hash_entry* Table, int table_size, int last_choice);
+    int sgn, step;
+    void init() override;
+    int operator()(hash_entry* Table, int table_size, int last_choice) override;
 };
 struct PublicOverflow : public collision_strategy {
-    virtual void init();
-    virtual int operator()(hash_entry* Table, int table_size, int last_choice);
+    void init() override {}
+    int operator()(hash_entry* Table, int table_size, int last_choice) override { return -1; }
 };
-
-
-
-
 struct hashtable{
     hash_entry* Table;
     int table_size;

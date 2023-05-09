@@ -1,10 +1,30 @@
 #include <cstdio>
 #include "hashtable.h"
 
-int main(){
+int main(int argc, char *argv[]) {
+    hashtable table(TABLE_SIZE, new EvenHashing(), new QuadraticProbing());
+    // hashtable table(TABLE_SIZE, nullptr, nullptr);
+    // if (argv[1][0] == '1' && argv[2][0] == '1') {
+    //     table.my_hashing = new UnevenHashing();
+    //     table.my_collision = new linear_probe();
+    // } else if (argv[1][0] == '1' && argv[2][0] == '2') {
+    //     table.my_hashing = new UnevenHashing();
+    //     table.my_collision = new QuadraticProbing();
+    // } else if (argv[1][0] == '1' && argv[2][0] == '3') {
+    //     table.my_hashing = new UnevenHashing();
+    //     table.my_collision = new PublicOverflow();
+    // } else if (argv[1][0] == '2' && argv[2][0] == '1') {
+    //     table.my_hashing = new EvenHashing();
+    //     table.my_collision = new linear_probe();
+    // } else if (argv[1][0] == '2' && argv[2][0] == '2') {
+    //     table.my_hashing = new EvenHashing();
+    //     table.my_collision = new QuadraticProbing();
+    // } else if (argv[1][0] == '2' && argv[2][0] == '3') {
+    //     table.my_hashing = new EvenHashing();
+    //     table.my_collision = new PublicOverflow();
+    // }
     int type;
     char buffer[1000];int data;
-    hashtable table(10000,new naive_hashing(),new linear_probe());
     while(true){
         scanf("%d", &type);
         if(type == 0){
