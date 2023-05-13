@@ -51,6 +51,9 @@ struct hashtable{
     {
         Table = new hash_entry[table_size];
     }
+    ~hashtable() {
+        delete Table;
+    }
     bool insert(hash_entry entry){
         if (dynamic_cast<PublicOverflow*>(my_collision) != nullptr) {
             static const int new_size = 400031;
@@ -89,7 +92,7 @@ struct hashtable{
                 if (Table[i].my_string == nullptr) {
                     return -1;
                 }
-                if (strcmp(Table[i].my_string, query_string)) {
+                if (strcmp(Table[i].my_string, query_string) == 0) {
                     return Table[i].my_data;
                 }
             }

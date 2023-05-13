@@ -6,3 +6,10 @@
 *.zip
 .vscode/
 DSA-2023Spring-08up.H.pdf
+dsa-spring2023/
+*.in
+*.out
+*.ans
+in
+out
+ans

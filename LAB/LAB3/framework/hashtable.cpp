@@ -7,16 +7,17 @@ int naive_hashing::operator()(char* str, int N){
     else return (str[0]+N)%N;
 }
 int UnevenHashing::operator()(char *str, int N) {
-    int h = 0, n = strlen(str);
-    for (int i = 0; i < n; i++) {
-        h ^= str[i];
+    int h = 0, n = 0;
+    for (int i = 0; str[i] > 0; i++) {
+        h += str[i];
+        n++;
     }
-    return h % N;
+    return (int64)h * n % N;
 }
 int EvenHashing::operator()(char *str, int N) {
     static const int kBase = 10007;
-    int h = 0, n = strlen(str);
-    for (int i = 0; i < n; i++) {
+    int h = 0;
+    for (int i = 0; str[i] > 0; i++) {
         h = ((int64)h * kBase + str[i]) % N;
     }
     return h;
@@ -35,5 +36,5 @@ int QuadraticProbing::operator()(hash_entry* Table, int table_size, int last_cho
     int lst = sgn * step * step;
     sgn = -sgn;
     step += (sgn > 0);
-    return (last_choice - lst + sgn * step * step + table_size) % table_size;
+    return ((last_choice - lst + sgn * step * step) % table_size + table_size) % table_size;
 }
