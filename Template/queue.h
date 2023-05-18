@@ -1,38 +1,38 @@
 template <typename T, const int kN>
 class Queue {
 private:
-    int head_, tail_;
-    T q_[kN];
+    int head, tail;
+    T que[kN];
 public:
-    Queue() : head_(0), tail_(0) {}
-    bool empty() const {
-        return head_ == tail_;
+    Queue() : head(0), tail(0) {}
+    bool Empty() const {
+        return head == tail;
     }
-    int size() const {
-        return tail_ - head_;
+    int Size() const {
+        return tail - head;
     }
     T &operator[](int x) const {
-        return x >= 0 ? q_[head_ + x] : q_[tail_ + x];
+        return x >= 0 ? que[head + x] : que[tail + x];
     }
-    T &front() const {
-        return q_[head_];
+    T &Front() const {
+        return que[head];
     }
-    T &back() const {
-        return q_[tail - 1];
+    T &Back() const {
+        return que[tail - 1];
     }
     void Clear() {
-        head_ = tail_ = 0;
+        head = tail = 0;
     }
     T PushFront(const T &x) {
-        return q_[--head_] = x;
+        return que[--head] = x;
     }
     T PushBack(const T &x) {
-        return q_[tail_++] = x;
+        return que[tail++] = x;
     }
     T PopFront() {
-        return q_[head_++];
+        return que[head++];
     }
     T PopBack() {
-        return q_[--tail_];
+        return que[--tail];
     }
 };

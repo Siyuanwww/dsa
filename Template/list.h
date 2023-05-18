@@ -3,13 +3,13 @@ struct Node {
     T data;
     Node<T> *pred, *succ;
     Node(T data = T(), Node<T> *pred = nullptr, Node<T> *succ = nullptr) : data(data), pred(pred), succ(succ) {}
-    Node<T> *insertPred(const T &data) {
+    Node<T> *InsertPred(const T &data) {
         Node<T> *p = new Node<T>(data, pred, this);
         pred->succ = p;
         pred = p;
         return p;
     }
-    Node<T> *insertPred(Node<T> *p) {
+    Node<T> *InsertPred(Node<T> *p) {
         p->pred = pred;
         p->succ = this;
         pred->succ = p;
@@ -21,73 +21,79 @@ struct Node {
 template <typename T>
 class List {
 private:
-    Node<T> *head_, *tail_;
-    int size_;
+    Node<T> *head, *tail;
+    int size;
 public:
-    List() : head_(new Node<T>()), tail_(new Node<T>()), size_(0) {
-        head_->succ = tail_;
-        tail_->pred = head_;
+    List() : head(new Node<T>()), tail(new Node<T>()), size(0) {
+        head->succ = tail;
+        tail->pred = head;
     }
-    bool empty() const {
-        return size_ == 0;
+    bool Empty() const {
+        return size == 0;
     }
-    int size() const {
-        return size_;
+    int Size() const {
+        return size;
     }
-    Node<T> *&begin() const {
-        return head_->succ;
+    Node<T> *&Begin() const {
+        return head->succ;
     }
-    Node<T> *&end() const {
-        return tail_;
+    Node<T> *&End() const {
+        return tail;
+    }
+    T Front() const {
+        return head->succ->data;
+    }
+    T Back() const {
+        return tail->pred->data;
     }
     Node<T> *&operator[](int x) const {
-        Node<T> *p = head_->succ;
+        Node<T> *p = head->succ;
         for (; x--; p = p->succ);
         return p;
     }
     Node<T> *Insert(const T &data, int x) {
-        size_++;
-        return this->operator[](x)->insertPred(data);
+        size++;
+        return this->operator[](x)->InsertPred(data);
     }
     Node<T> *Insert(Node<T> *p, int x) {
-        size_++;
-        return this->operator[](x)->insertPred(p);
+        size++;
+        return this->operator[](x)->InsertPred(p);
     }
     Node<T> *PushBack(const T &data) {
-        size_++;
-        return tail_->insertPred(data);
+        size++;
+        return tail->InsertPred(data);
     }
     Node<T> *PushBack(Node<T> *p) {
-        size_++;
-        return tail_->insertPred(p);
+        size++;
+        return tail->InsertPred(p);
     }
     Node<T> *PushFront(const T &data) {
-        size_++;
-        return head_->succ->insertPred(data);
+        size++;
+        return head->succ->InsertPred(data);
     }
     Node<T> *PushFront(Node<T> *p) {
-        size_++;
-        return head_->succ->insertPred(p);
+        size++;
+        return head->succ->InsertPred(p);
     }
     T PopBack() {
-        size_--;
-        return remove(tail_->pred);
+        size--;
+        return remove(tail->pred);
     }
     T PopFront() {
-        size_--;
-        return remove(head_->succ);
+        size--;
+        return remove(head->succ);
     }
     Node<T> *Find(const T &data) {
-        Node<T> *p = head_->succ;
-        for (; p != tail_; p = p->succ) {
+        Node<T> *p = head->succ;
+        for (; p != tail; p = p->succ) {
             if (p->data == data) {
                 return p;
             }
         }
-        return tail_;
+        return tail;
     }
     T Pop(Node<T> *p) {
-        size_--;
+        size--;
         T tmp = p->data;
         p->pred->succ = p->succ;
         p->succ->pred = p->pred;

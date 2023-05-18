@@ -2,9 +2,9 @@ class Segment {
     #define ls (u << 1)
     #define rs (u << 1 | 1)
     static const int kN = 1 << 20;
-    int n_;
-    int sum_[kN];
-    int tag_[kN];
+    int n;
+    int sum[kN];
+    int tag[kN];
     void PushUp(int u) {
         // write your code here
     }
@@ -12,23 +12,24 @@ class Segment {
         // write your code here
     }
     void PushDown(int u, int l, int r) {
-        if (tag_[u] != 0) {
+        if (tag[u] != 0) {
             int mid = (l + r) >> 1;
-            Update(ls, l, mid, tag_[u]);
-            Update(rs, mid + 1, r, tag_[u]);
-            tag_[u] = 0;
+            Update(ls, l, mid, tag[u]);
+            Update(rs, mid + 1, r, tag[u]);
+            tag[u] = 0;
         }
     }
-    void Build(int u, int l, int r) {
-        sum_[u] = tag_[u] = 0;
+    void Build(int *a, int u, int l, int r) {
+        sum[u] = tag[u] = 0;
         if (l == r) {
+            sum[u] = a[l];
             return;
         }
         int mid = (l + r) >> 1;
-        Build(ls, l, mid);
-        Build(rs, mid + 1, r);
+        Build(a, ls, l, mid);
+        Build(a, rs, mid + 1, r);
     }
-    void Modify(int x, int y, int u, int l, int r, int w) {
+    void Modify(int x, int y, int w, int u, int l, int r) {
         if (x == l && r == y) {
             Update(u, l, r, w);
             return;
@@ -36,18 +37,18 @@ class Segment {
         PushDown(u, l, r);
         int mid = (l + r) >> 1;
         if (y <= mid) {
-            Modify(x, y, ls, l, mid, w);
+            Modify(x, y, w, ls, l, mid);
         } else if (x > mid) {
-            Modify(x, y, rs, mid + 1, r, w);
+            Modify(x, y, w, rs, mid + 1, r);
         } else {
-            Modify(x, mid, ls, l, mid, w);
-            Modify(mid + 1, y, rs, mid + 1, r, w);
+            Modify(x, mid, w, ls, l, mid);
+            Modify(mid + 1, w, y, rs, mid + 1, r);
         }
         PushUp(u);
     }
     int Query(int x, int y, int u, int l, int r) {
         if (x == l && r == y) {
-            return sum_[u];
+            return sum[u];
         }
         PushDown(u, l, r);
         int mid = (l + r) >> 1;
@@ -60,14 +61,14 @@ class Segment {
         }
     }
 public:
-    void set_size(int n) {
-        Build(1, 1, n_ = n);
+    void Build(int *a, int _n) {
+        Build(a, 1, 1, n = _n);
     }
     void Modify(int l, int r, int w) {
-        Modify(1, 1, n_, l, r, w);
+        Modify(l, r, w, 1, 1, n);
     }
     int Query(int l, int r) {
-        return Query(l, r);
+        return Query(l, r, 1, 1, n);
     }
     #undef ls
     #undef rs

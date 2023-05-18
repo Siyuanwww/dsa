@@ -1,26 +1,26 @@
 template <typename T, const int kN>
 class Stack {
 private:
-    int size_;
-    T s_[kN];
+    int size;
+    T stk[kN];
 public:
-    Stack() : size_(0) {}
-    bool empty() const {
-        return size_ == 0;
+    Stack() : size(0) {}
+    bool Empty() const {
+        return size == 0;
     }
-    int size() const {
-        return size_;
+    int Size() const {
+        return size;
     }
-    T &top() const {
-        return s_[size_ - 1];
+    T &Top() const {
+        return stk[size - 1];
     }
     void Clear() {
-        size_ = 0;
+        size = 0;
     }
     T Push(const T &x) {
-        return s_[size_++] = x;
+        return stk[size++] = x;
     }
     T Pop() {
-        return s_[--size_];
+        return stk[--size];
     }
 };

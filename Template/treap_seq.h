@@ -9,10 +9,10 @@ inline void swap(T &x, T &y) {
 struct Node *null;
 struct Node {
     int val;
-    int siz, key;
+    int size, key;
     bool rev;
     Node *ch[2];
-    Node(const int &val = 0) : val(val), siz(1), key(rand()), rev(false) {
+    Node(const int &val = 0) : val(val), size(1), key(rand()), rev(false) {
         ch[0] = ch[1] = null;
     }
     void Reverse() {
@@ -31,7 +31,7 @@ struct Node {
         }
     }
     void PushUp() {
-        siz = ch[0]->siz + ch[1]->siz + 1;
+        size = ch[0]->size + ch[1]->size + 1;
     }
 };
 
@@ -52,10 +52,10 @@ protected:
             return;
         }
         p->PushDown();
-        int siz = p->ch[0]->siz;
-        if (k > siz) {
+        int size = p->ch[0]->size;
+        if (k > size) {
             x = p;
-            Split(p->ch[1], k - siz, p->ch[1], y);
+            Split(p->ch[1], k - size, p->ch[1], y);
         } else {
             y = p;
             Split(p->ch[0], k, x, p->ch[0]);
@@ -85,7 +85,7 @@ public:
     Treap() {
         null = new Node();
         null->ch[0] = null->ch[1] = null;
-        null->siz = 0;
+        null->size = 0;
         rt = null;
     }
     ~Treap() {
