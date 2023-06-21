@@ -1,0 +1,13 @@
+digraph trie {
+    // 任务4: 用上面的方式，画出包含“abc” “abe” “ac” “ab”这四个字符串的一棵字典树。
+    c1[label=c, shape=doublecircle]
+    a[shape=circle]
+    b[shape=doublecircle]
+    c[shape=doublecircle]
+    e[shape=doublecircle]
+    a -> b
+    b -> c
+    b -> e
+    a -> c1
+    
+}

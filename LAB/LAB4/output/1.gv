@@ -1,0 +1,12 @@
+digraph 1 {
+	graph [rankdir=LR]
+	subgraph master {
+	0 -> 1 [label=a]
+	1 -> 2 [label=a]
+	2 -> 3 [label=a]
+	}
+	1 -> 0 [label="^a", weight=0]
+	2 -> 0 [label="^a", weight=0]
+	3 -> 0 [label="^a", weight=0]
+	0 -> 0 [label="^a", weight=0]
+}
